@@ -5,3 +5,4 @@ Python project to create animated gifs from personal photos.<br>In the future th
 ### Available effects
 - Draw<br><img src="gifs/tennis_court.gif">
 - (more to come...)
+- 
