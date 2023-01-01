@@ -1,6 +1,7 @@
 # Internal libs
 from src.creators.gif import Gif
 from src.effects.draw import Draw
+from src.effects.cover import Cover
 
 # External libs
 import os
@@ -13,7 +14,8 @@ class Run(object):
     GIFS_PATH = os.path.abspath(os.path.join(PATH, "..", "gifs"))
 
     EFFECTS = {
-        "draw": Draw
+        "draw": Draw,
+        "cover": Cover
     }
 
     def __init__(self, pattern_file, effect_name, gif_file):
@@ -26,4 +28,5 @@ class Run(object):
 
 
 if __name__ == "__main__":
-    Run("tennis_court.json", "draw", "tennis_court.gif")
+    Run("tennis_court.json", "draw", "tennis_court_draw.gif")
+    Run("tennis_court.json", "cover", "tennis_court_cover.gif")

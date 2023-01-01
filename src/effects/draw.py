@@ -1,4 +1,4 @@
-# Interal libs
+# Internal libs
 from src.effects.abstract_effect import AbstractEffect
 
 # External libs
@@ -22,14 +22,7 @@ class Draw(AbstractEffect):
         return list_img
 
     def __compute_first_image(self, pattern):
-        row = list()
-        for j in range(0, len(pattern["image"][0])):
-            row.append(self._least_value)
-
-        matrix = list()
-        for i in range(0, len(pattern["image"])):
-            matrix.append(row.copy())
-
+        matrix = self._compute_background(pattern)
         i0, j0 = self.__detect_first_pixel(pattern["image"])
         matrix[i0][j0] = self._main_value
         return matrix
