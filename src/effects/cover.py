@@ -13,7 +13,7 @@ class Cover(AbstractEffect):
 
     @staticmethod
     def __get_first_pixel():
-        return 10, 5
+        return 0, 0
 
     def apply_on(self, pattern):
         matrix = self.__compute_first_image(pattern)
@@ -21,14 +21,14 @@ class Cover(AbstractEffect):
 
         i_done = [self.__i0]
         j_done = [self.__j0]
-        while len(i_done) < len(pattern["image"]) or len(j_done) < len(pattern["image"][0]):
-            matrix, i_done, j_done = self.__compute_next_image(matrix, pattern["image"], i_done, j_done)
+        while len(i_done) < len(pattern["pattern"]) or len(j_done) < len(pattern["pattern"][0]):
+            matrix, i_done, j_done = self.__compute_next_image(matrix, pattern["pattern"], i_done, j_done)
             list_img.append(self._to_image(copy.deepcopy(matrix), pattern["colors"]).content)
         return list_img
 
     def __compute_first_image(self, pattern):
         matrix = self._compute_background(pattern)
-        matrix[self.__i0][self.__j0] = pattern["image"][self.__i0][self.__j0]
+        matrix[self.__i0][self.__j0] = pattern["pattern"][self.__i0][self.__j0]
         return matrix
 
     def __compute_next_image(self, current_matrix, pattern_matrix, i_done, j_done):

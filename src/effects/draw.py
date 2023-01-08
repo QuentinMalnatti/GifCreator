@@ -14,16 +14,16 @@ class Draw(AbstractEffect):
         matrix = self.__compute_first_image(pattern)
         list_img = [self._to_image(copy.deepcopy(matrix), pattern["colors"]).content]
 
-        is_finish, matrix = self.__compute_next_image(matrix, pattern["image"])
+        is_finish, matrix = self.__compute_next_image(matrix, pattern["pattern"])
         while not is_finish:
             list_img.append(self._to_image(copy.deepcopy(matrix), pattern["colors"]).content)
-            is_finish, matrix = self.__compute_next_image(matrix, pattern["image"])
+            is_finish, matrix = self.__compute_next_image(matrix, pattern["pattern"])
 
         return list_img
 
     def __compute_first_image(self, pattern):
         matrix = self._compute_background(pattern)
-        i0, j0 = self.__detect_first_pixel(pattern["image"])
+        i0, j0 = self.__detect_first_pixel(pattern["pattern"])
         matrix[i0][j0] = self._main_value
         return matrix
 
