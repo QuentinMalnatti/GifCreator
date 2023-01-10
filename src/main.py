@@ -8,6 +8,7 @@ from src.effects.cover import Cover
 
 # External libs
 import os
+from datetime import datetime
 
 
 class Run(object):
@@ -26,10 +27,18 @@ class Run(object):
         gif_file = self._define_gif_file(intput_file, effect_name)
         gif_file_path = os.path.abspath(os.path.join(self.GIFS_PATH, gif_file))
 
+        print("- Start")
+        print("-- Extract pattern...")
         pattern = self._extract_pattern(input_file_path)
+        print("-- Effect...")
+        start_time = datetime.now()
         self.__gif = Gif(pattern, effect)
+        delta_time = str(datetime.now() - start_time).split(':')
+        print(f"{delta_time[0]}h{delta_time[1]}m{delta_time[2]}s")
         if save:
+            print("-- Load...")
             self.__gif.save(gif_file_path)
+        print("- End")
 
     @classmethod
     def _define_input_path(cls, input_file):
@@ -85,4 +94,4 @@ class RunWithImage(Run):
 
 if __name__ == "__main__":
     #RunWithPattern("tennis_court.json", "cover")
-    RunWithImage("github.png", "cover", True)
+    RunWithImage("tennis_court_in_forest.jpg", "cover", True)
