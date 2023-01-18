@@ -6,7 +6,7 @@ import copy
 from datetime import datetime
 
 
-class Cover(AbstractEffect):
+class Cover2(AbstractEffect):
 
     def __init__(self):
         super().__init__()
