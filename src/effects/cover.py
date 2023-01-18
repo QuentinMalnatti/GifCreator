@@ -3,6 +3,7 @@ from src.effects.abstract_effect import AbstractEffect
 
 # External libs
 import copy
+from datetime import datetime
 
 
 class Cover(AbstractEffect):
@@ -22,9 +23,14 @@ class Cover(AbstractEffect):
 
         ij_iter = [self.__get_first_pixel()]
         while (len(self.__ij_done) < len(pattern["pattern"])*len(pattern["pattern"][0])): # and self._cpt < 35:
-            print(self.__ij_done, ij_iter)
+            print("compute next matrix")
+            s = datetime.now()
             matrix, ij_iter = self.__compute_next_image(matrix, pattern["pattern"], ij_iter)
+            print(datetime.now() - s)
+            print("append image")
+            s = datetime.now()
             list_img.append(self._to_image(copy.deepcopy(matrix), pattern["colors"]).content)
+            print(datetime.now() - s)
             self._cpt += 1
         print(f"{self._cpt} iterations")
         return list_img

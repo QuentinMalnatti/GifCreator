@@ -94,4 +94,4 @@ class RunWithImage(Run):
 
 if __name__ == "__main__":
     #RunWithPattern("tennis_court.json", "cover")
-    RunWithImage("tennis_court_in_forest.jpg", "cover", True)
+    RunWithImage("github.png", "cover", True)
