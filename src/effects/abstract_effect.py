@@ -4,6 +4,7 @@ from src.creators.image import Img
 class AbstractEffect(object):
 
     def __init__(self):
+        self._cpt = 0
         self._main_value = 1
         self._least_value = 0
 

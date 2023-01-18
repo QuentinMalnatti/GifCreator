@@ -24,6 +24,8 @@ class Cover(AbstractEffect):
         while len(i_done) < len(pattern["pattern"]) or len(j_done) < len(pattern["pattern"][0]):
             matrix, i_done, j_done = self.__compute_next_image(matrix, pattern["pattern"], i_done, j_done)
             list_img.append(self._to_image(copy.deepcopy(matrix), pattern["colors"]).content)
+            self._cpt += 1
+        print(f"{self._cpt} iterations")
         return list_img
 
     def __compute_first_image(self, pattern):
