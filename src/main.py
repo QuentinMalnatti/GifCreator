@@ -5,6 +5,7 @@ from src.creators.gif import Gif
 # Effects
 from src.effects.draw import Draw
 from src.effects.cover import Cover
+from src.effects.cover2 import Cover2
 
 # External libs
 import os
@@ -18,7 +19,8 @@ class Run(object):
 
     EFFECTS = {
         "draw": Draw,
-        "cover": Cover
+        "cover": Cover,
+        "cover2": Cover2
     }
 
     def __init__(self, intput_file, effect_name, save=False):
@@ -30,15 +32,16 @@ class Run(object):
         print("- Start")
         print("-- Extract pattern...")
         pattern = self._extract_pattern(input_file_path)
-        print("-- Effect...")
+        print(f"-- Effect {effect_name}...")
         start_time = datetime.now()
         self.__gif = Gif(pattern, effect)
         delta_time = str(datetime.now() - start_time).split(':')
-        print(f"{delta_time[0]}h{delta_time[1]}m{delta_time[2]}s")
+        print(f"Execution time : {delta_time[0]}h{delta_time[1]}m{delta_time[2]}s")
         if save:
-            print("-- Load...")
+            print("-- Save...")
             self.__gif.save(gif_file_path)
         print("- End")
+        print()
 
     @classmethod
     def _define_input_path(cls, input_file):
@@ -93,5 +96,7 @@ class RunWithImage(Run):
 
 
 if __name__ == "__main__":
-    RunWithPattern("tennis_court.json", "cover")
-    #RunWithImage("tennis_court_in_forest.jpg", "cover", True)
+    #RunWithPattern("tennis_court.json", "cover", True)
+    #RunWithPattern("tennis_court.json", "cover2", True)
+    RunWithImage("github.png", "cover", True)
+    RunWithImage("github.png", "cover2", True)
