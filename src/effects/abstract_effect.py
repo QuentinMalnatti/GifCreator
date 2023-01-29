@@ -1,3 +1,8 @@
+# External libs
+import numpy as np
+import copy
+
+# Internal libs
 from src.creators.image import Img
 
 
@@ -13,9 +18,10 @@ class AbstractEffect(object):
 
     @staticmethod
     def _to_image(matrix, colors):
-        return Img(matrix, colors)
+        return Img(copy.deepcopy(matrix.tolist()), colors)
 
     def _compute_background(self, base_image):
+        """
         row = list()
         for j in range(0, len(base_image["pattern"][0])):
             row.append(self._least_value)
@@ -25,3 +31,6 @@ class AbstractEffect(object):
             matrix.append(row.copy())
 
         return matrix
+        """
+        matrix = np.array([self._least_value]*(len(base_image["pattern"])*len(base_image["pattern"][0])))
+        return matrix.reshape(len(base_image["pattern"]), len(base_image["pattern"][0]))
