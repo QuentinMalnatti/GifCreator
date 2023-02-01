@@ -5,11 +5,11 @@ from src.creators.gif import Gif
 # Effects
 from src.effects.draw import Draw
 from src.effects.cover import Cover
-from src.effects.cover2 import Cover2
 
 # External libs
 import os
 from datetime import datetime
+import numpy as np
 
 
 class Run(object):
@@ -20,7 +20,6 @@ class Run(object):
     EFFECTS = {
         "draw": Draw,
         "cover": Cover,
-        "cover2": Cover2
     }
 
     def __init__(self, intput_file, effect_name, save=False):
@@ -72,7 +71,9 @@ class RunWithPattern(Run):
 
     @staticmethod
     def _extract_pattern(pattern_file_path):
-        return FileTools.read_json(pattern_file_path)
+        pattern = FileTools.read_json(pattern_file_path)
+        pattern["pattern"] = np.array(pattern["pattern"])
+        return pattern
 
 
 class RunWithImage(Run):
@@ -97,6 +98,4 @@ class RunWithImage(Run):
 
 if __name__ == "__main__":
     #RunWithPattern("tennis_court.json", "cover", True)
-    #RunWithPattern("tennis_court.json", "cover2", True)
-    RunWithImage("github.png", "cover", True)
-    RunWithImage("github.png", "cover2", True)
+    RunWithImage("tennis_court_in_forest.jpg", "cover", True)

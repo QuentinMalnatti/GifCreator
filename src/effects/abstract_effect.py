@@ -20,17 +20,9 @@ class AbstractEffect(object):
     def _to_image(matrix, colors):
         return Img(copy.deepcopy(matrix.tolist()), colors)
 
-    def _compute_background(self, base_image):
-        """
-        row = list()
-        for j in range(0, len(base_image["pattern"][0])):
-            row.append(self._least_value)
+    def _compute_1value_matrix(self, from_matrix, value=None):
+        if value is None:
+            value = self._least_value
 
-        matrix = list()
-        for i in range(0, len(base_image["pattern"])):
-            matrix.append(row.copy())
-
-        return matrix
-        """
-        matrix = np.array([self._least_value]*(len(base_image["pattern"])*len(base_image["pattern"][0])))
-        return matrix.reshape(len(base_image["pattern"]), len(base_image["pattern"][0]))
+        matrix = np.array([value]*(len(from_matrix)*len(from_matrix[0])))
+        return matrix.reshape(len(from_matrix), len(from_matrix[0]))

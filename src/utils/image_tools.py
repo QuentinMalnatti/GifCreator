@@ -15,7 +15,7 @@ class ImageTools(object):
             }
         }
 
-        image = image.resize((100, 100))
+        image = image.resize((300, 300))
         image = image.convert("RGB")
         pattern["image"] = np.array(image)
 

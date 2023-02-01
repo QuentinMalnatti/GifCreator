@@ -22,7 +22,7 @@ class Draw(AbstractEffect):
         return list_img
 
     def __compute_first_image(self, pattern):
-        matrix = self._compute_background(pattern)
+        matrix = self._compute_1value_matrix(pattern["pattern"])
         i0, j0 = self.__detect_first_pixel(pattern["pattern"])
         matrix[i0][j0] = self._main_value
         return matrix
