@@ -72,7 +72,8 @@ class RunWithPattern(Run):
     @staticmethod
     def _extract_pattern(pattern_file_path):
         pattern = FileTools.read_json(pattern_file_path)
-        pattern["pattern"] = np.array(pattern["pattern"])
+        for elmnts in ["image", "image_binary", "pattern"]:
+            pattern[elmnts] = np.array(pattern[elmnts])
         return pattern
 
 
@@ -98,4 +99,4 @@ class RunWithImage(Run):
 
 if __name__ == "__main__":
     #RunWithPattern("tennis_court.json", "cover", True)
-    RunWithImage("tennis_court_in_forest.jpg", "cover", True)
+    RunWithImage("lama.jpg", "cover", True)

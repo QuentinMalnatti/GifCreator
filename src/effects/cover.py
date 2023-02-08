@@ -16,29 +16,29 @@ class Cover(AbstractEffect):
     def apply_on(self, pattern):
         self.__ij_done = self._compute_1value_matrix(pattern["pattern"], 0)
 
-        matrix = self.__compute_first_image(pattern["pattern"])
-        list_img = [self._to_image(matrix, pattern["colors"]).content]
+        matrix = self.__compute_first_image(pattern)
+        list_img = [self._to_image(matrix).content]
 
         ij_iter = self.__get_first_pixel()
         while len(self.__ij_done[self.__ij_done == 0]) != 0:
-            matrix, ij_iter = self.__compute_next_image(matrix, pattern["pattern"], ij_iter)
-            list_img += [self._to_image(matrix, pattern["colors"]).content]
+            matrix, ij_iter = self.__compute_next_image(matrix, pattern, ij_iter)
+            list_img += [self._to_image(matrix).content]
             self._cpt += 1
         print(f"{self._cpt} iterations")
         return list_img
 
     @staticmethod
     def __get_first_pixel():
-        return np.array([[150], [150]])
+        return np.array([[100], [100]])
 
     def __compute_first_image(self, pattern):
-        matrix = self._compute_1value_matrix(pattern)
+        matrix = pattern["image"]
         coord_0 = self.__get_first_pixel()
-        matrix[coord_0[0], coord_0[1]] = pattern[coord_0[0], coord_0[1]]
+        matrix[coord_0[0], coord_0[1]] = pattern["image_binary"][coord_0[0], coord_0[1]]
         self.__ij_done[coord_0[0], coord_0[1]] += 1
         return matrix
 
-    def __compute_next_image(self, current_matrix, pattern_matrix, ij_iter):
+    def __compute_next_image(self, current_matrix, pattern, ij_iter):
         next_matrix = copy.deepcopy(current_matrix)
 
         i_iter, j_iter = ij_iter[0], ij_iter[1]
@@ -50,8 +50,8 @@ class Cover(AbstractEffect):
                     new_i = np.append(new_i, i_iter + i_step)
                     new_j = np.append(new_j, j_iter + j_step)
 
-        cond_i = ((new_i >= 0) & (new_i < len(pattern_matrix)))
-        cond_j = ((new_j >= 0) & (new_j < len(pattern_matrix[0])))
+        cond_i = ((new_i >= 0) & (new_i < len(next_matrix)))
+        cond_j = ((new_j >= 0) & (new_j < len(next_matrix[0])))
         new_i = new_i[cond_i & cond_j]
         new_j = new_j[cond_i & cond_j]
 
@@ -60,6 +60,6 @@ class Cover(AbstractEffect):
 
         next_ij = np.where(self.__ij_done == 1)
         next_ij = np.array([next_ij[0], next_ij[1]])
-        next_matrix[next_ij[0], next_ij[1]] = pattern_matrix[next_ij[0], next_ij[1]]
+        next_matrix[next_ij[0], next_ij[1]] = pattern["image_binary"][next_ij[0], next_ij[1]]
 
         return next_matrix, next_ij

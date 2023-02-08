@@ -1,1 +1,6 @@
 .idea
+
+data/in/images
+
+!data/out/gifs/exemples/*
+data/out/gifs

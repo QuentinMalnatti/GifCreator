@@ -17,8 +17,8 @@ class AbstractEffect(object):
         raise NotImplementedError
 
     @staticmethod
-    def _to_image(matrix, colors):
-        return Img(copy.deepcopy(matrix.tolist()), colors)
+    def _to_image(matrix, *args):
+        return Img(copy.deepcopy(matrix), args)
 
     def _compute_1value_matrix(self, from_matrix, value=None):
         if value is None:
