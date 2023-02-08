@@ -25,7 +25,7 @@ class Run(object):
     def __init__(self, intput_file, effect_name, save=False):
         input_file_path = self._define_input_path(intput_file)
         effect = self.EFFECTS[effect_name]
-        gif_file = self._define_gif_file(intput_file, effect_name)
+        gif_file = self.__define_gif_file(intput_file, effect_name)
         gif_file_path = os.path.abspath(os.path.join(self.GIFS_PATH, gif_file))
 
         print("- Start")
@@ -47,8 +47,8 @@ class Run(object):
         raise NotImplementedError
 
     @staticmethod
-    def _define_gif_file(input_file, effect_name):
-        raise NotImplementedError
+    def __define_gif_file(input_file, effect_name):
+        return f"{input_file.split('.')[0]}_{effect_name}.gif"
 
     @staticmethod
     def _extract_pattern(input_file_path):
@@ -64,10 +64,6 @@ class RunWithPattern(Run):
     def _define_input_path(cls, pattern_file):
         patterns_path = os.path.abspath(os.path.join(cls.PATH, "..", "data", "in", "patterns"))
         return os.path.abspath(os.path.join(patterns_path, pattern_file))
-
-    @staticmethod
-    def _define_gif_file(input_file, effect_name):
-        return f"{input_file.split('.')[0]}_{effect_name}_form_pattern.gif"
 
     @staticmethod
     def _extract_pattern(pattern_file_path):
@@ -86,10 +82,6 @@ class RunWithImage(Run):
     def _define_input_path(cls, image_file):
         image_path = os.path.abspath(os.path.join(cls.PATH, "..", "data", "in", "images"))
         return os.path.abspath(os.path.join(image_path, image_file))
-
-    @staticmethod
-    def _define_gif_file(input_file, effect_name):
-        return f"{input_file.split('.')[0]}_{effect_name}_form_image.gif"
 
     @staticmethod
     def _extract_pattern(image_file_path):
