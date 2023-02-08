@@ -1,9 +1,7 @@
 # Internal libs
 from src.utils.file_tools import FileTools
-from src.utils.image_tools import ImageTools
 from src.creators.gif import Gif
 # Effects
-from src.effects.draw import Draw
 from src.effects.cover import Cover
 
 # External libs
@@ -18,7 +16,6 @@ class Run(object):
     GIFS_PATH = os.path.abspath(os.path.join(PATH, "..", "data", "out", "gifs"))
 
     EFFECTS = {
-        "draw": Draw,
         "cover": Cover,
     }
 
@@ -83,10 +80,35 @@ class RunWithImage(Run):
         image_path = os.path.abspath(os.path.join(cls.PATH, "..", "data", "in", "images"))
         return os.path.abspath(os.path.join(image_path, image_file))
 
-    @staticmethod
-    def _extract_pattern(image_file_path):
+    @classmethod
+    def _extract_pattern(cls, image_file_path):
         image = FileTools.read_image(image_file_path)
-        return ImageTools.image_to_pattern(image)
+        return cls.__image_to_pattern(image)
+
+    @staticmethod
+    def __image_to_pattern(image):
+        pattern = {
+            "image": None,
+            "image_binary": None,
+            "pattern": None,
+            "colors": {
+                "0": [0, 0, 0],
+                "1": [255, 255, 255]
+            }
+        }
+
+        image = image.resize((200, 200))
+        image = image.convert("RGB")
+        pattern["image"] = np.array(image)
+
+        image = image.convert('L')
+        image = image.point(lambda p: 255 if p > 255 / 2 else 0)
+        pattern["pattern"] = np.array(image.point(lambda p: 1 if p > 255 / 2 else 0))
+
+        image = image.convert("RGB")
+        pattern["image_binary"] = np.array(image)
+
+        return pattern
 
 
 if __name__ == "__main__":

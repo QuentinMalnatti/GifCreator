@@ -10,35 +10,29 @@ class Cover(AbstractEffect):
 
     def __init__(self):
         super().__init__()
-        self.__step = 5
+        self.__step = 2
         self.__ij_done = None
 
-    def apply_on(self, pattern):
-        self.__ij_done = self._compute_1value_matrix(pattern["pattern"], 0)
-
-        matrix = self.__compute_first_image(pattern)
-        list_img = [self._to_image(matrix).content]
-
-        ij_iter = self.__get_first_pixel()
-        while len(self.__ij_done[self.__ij_done == 0]) != 0:
-            matrix, ij_iter = self.__compute_next_image(matrix, pattern, ij_iter)
-            list_img += [self._to_image(matrix).content]
-            self._cpt += 1
-        print(f"{self._cpt} iterations")
-        return list_img
-
-    @staticmethod
-    def __get_first_pixel():
-        return np.array([[100], [100]])
-
-    def __compute_first_image(self, pattern):
+    def _compute_first_image(self, pattern):
         matrix = pattern["image"]
         coord_0 = self.__get_first_pixel()
         matrix[coord_0[0], coord_0[1]] = pattern["image_binary"][coord_0[0], coord_0[1]]
         self.__ij_done[coord_0[0], coord_0[1]] += 1
         return matrix
 
-    def __compute_next_image(self, current_matrix, pattern, ij_iter):
+    @staticmethod
+    def __get_first_pixel():
+        return np.array([[100], [100]])
+
+    def _init(self, pattern):
+        self.__ij_done = self.matrix_tools.compute_1value_matrix(pattern["pattern"])
+        return {"ij_iter": self.__get_first_pixel()}
+
+    def _is_finish(self):
+        return len(self.__ij_done[self.__ij_done == 0]) == 0
+
+    def _compute_next_image(self, current_matrix, pattern, iter_components):
+        ij_iter = iter_components["ij_iter"]
         next_matrix = copy.deepcopy(current_matrix)
 
         i_iter, j_iter = ij_iter[0], ij_iter[1]
@@ -62,4 +56,4 @@ class Cover(AbstractEffect):
         next_ij = np.array([next_ij[0], next_ij[1]])
         next_matrix[next_ij[0], next_ij[1]] = pattern["image_binary"][next_ij[0], next_ij[1]]
 
-        return next_matrix, next_ij
+        return next_matrix, {"ij_iter": next_ij}
