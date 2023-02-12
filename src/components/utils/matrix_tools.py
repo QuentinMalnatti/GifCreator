@@ -1,5 +1,5 @@
 # Internal libs
-from src.creators.image import Img
+from components.creators.image import Img
 
 # External libs
 import numpy as np

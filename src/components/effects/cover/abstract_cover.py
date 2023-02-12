@@ -1,32 +1,31 @@
 # Internal libs
-from src.effects.abstract_effect import AbstractEffect
+from components.effects.abstract_effect import AbstractEffect
 
 # External libs
 import copy
 import numpy as np
 
 
-class Cover(AbstractEffect):
+class AbstractCover(AbstractEffect):
 
     def __init__(self):
         super().__init__()
-        self.__step = 2
+        self.__step = 4
         self.__ij_done = None
+
+    def _init(self, pattern):
+        self.__ij_done = self.matrix_tools.compute_1value_matrix(pattern["pattern"])
+        return {"ij_iter": self._get_first_pixel(pattern["pattern"])}
 
     def _compute_first_image(self, pattern):
         matrix = pattern["image"]
-        coord_0 = self.__get_first_pixel()
+        coord_0 = self._get_first_pixel(matrix)
         matrix[coord_0[0], coord_0[1]] = pattern["image_binary"][coord_0[0], coord_0[1]]
         self.__ij_done[coord_0[0], coord_0[1]] += 1
         return matrix
 
-    @staticmethod
-    def __get_first_pixel():
-        return np.array([[100], [100]])
-
-    def _init(self, pattern):
-        self.__ij_done = self.matrix_tools.compute_1value_matrix(pattern["pattern"])
-        return {"ij_iter": self.__get_first_pixel()}
+    def _get_first_pixel(self, matrix):
+        raise NotImplementedError
 
     def _is_finish(self):
         return len(self.__ij_done[self.__ij_done == 0]) == 0
