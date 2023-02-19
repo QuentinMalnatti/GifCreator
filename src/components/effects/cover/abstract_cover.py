@@ -58,5 +58,5 @@ class AbstractCover(AbstractEffect):
 
         return next_matrix, {"ij_iter": next_ij}
 
-    def _is_good_step(self, pixel):
+    def _is_good_step(self, step):
         raise NotImplementedError

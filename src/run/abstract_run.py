@@ -2,6 +2,7 @@
 from components.creators.gif import Gif
 from utils.time_tools import TimeTools
 # Effects
+from components.effects.cover.cover_center import CoverCenter
 from components.effects.cover.cover_line import CoverLineLeft, CoverLineRight, CoverLineTop, CoverLineBottom
 from components.effects.cover.cover_diag import CoverDiagTopLeft, CoverDiagTopRight, CoverDiagBottomLeft, CoverDiagBottomRight
 # External libs
@@ -16,6 +17,7 @@ class AbstractRun(object):
     GIFS_PATH = os.path.abspath(os.path.join(DATA_PATH, "out", "gifs"))
 
     EFFECTS = {
+        "cover_center": CoverCenter,
         "cover_line_left": CoverLineLeft,
         "cover_line_right": CoverLineRight,
         "cover_line_top": CoverLineTop,
