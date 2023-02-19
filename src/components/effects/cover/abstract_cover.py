@@ -10,7 +10,7 @@ class AbstractCover(AbstractEffect):
 
     def __init__(self):
         super().__init__()
-        self.__step = 4
+        self._step = 2
         self.__ij_done = None
 
     def _init(self, pattern):
@@ -37,9 +37,10 @@ class AbstractCover(AbstractEffect):
         i_iter, j_iter = ij_iter[0], ij_iter[1]
 
         new_i, new_j = np.array([], dtype=int), np.array([], dtype=int)
-        for i_step in np.arange(-self.__step, self.__step + 1):
-            for j_step in np.arange(-self.__step, self.__step + 1):
-                if [i_step, j_step] != [0, 0]:
+        step_range = np.arange(-self._step, self._step + 1)
+        for i_step in step_range:
+            for j_step in step_range:
+                if self._is_good_step([i_step, j_step]):
                     new_i = np.append(new_i, i_iter + i_step)
                     new_j = np.append(new_j, j_iter + j_step)
 
@@ -56,3 +57,6 @@ class AbstractCover(AbstractEffect):
         next_matrix[next_ij[0], next_ij[1]] = pattern["image_binary"][next_ij[0], next_ij[1]]
 
         return next_matrix, {"ij_iter": next_ij}
+
+    def _is_good_step(self, pixel):
+        raise NotImplementedError

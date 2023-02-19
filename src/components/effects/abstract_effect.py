@@ -1,5 +1,5 @@
 # Internal libs
-from components.utils.matrix_tools import MatrixTools
+from utils.matrix_tools import MatrixTools
 
 
 class AbstractEffect(object):

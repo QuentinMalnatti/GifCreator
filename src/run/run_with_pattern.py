@@ -1,6 +1,6 @@
 # Internal libs
 from run.abstract_run import AbstractRun
-from components.utils.file_tools import FileTools
+from utils.file_tools import FileTools
 
 # External libs
 import os
