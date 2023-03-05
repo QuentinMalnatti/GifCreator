@@ -7,7 +7,7 @@ from run.run_with_image import RunWithImage
 import argparse
 
 
-def get_effect():
+def get_effect() -> str:
     effects_name = list(AbstractRun.EFFECTS.keys())
     effects_mapping = {f"{i}": effects_name[i] for i in range(0, len(effects_name))}
     chosen_effect = None
